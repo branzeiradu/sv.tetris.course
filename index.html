@@ -2,13 +2,92 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Tetris</title>
-	<meta name="description" content="SV JS Course: Tetris">
-	<meta name="author" content="Branzei Radu">
-	<link rel="stylesheet" href="css/styles.css">
+	<title>Tema1</title>
+	
+	
 </head>
 <body>
-	<h1>Hello, Tetris!</h1>
-	<script src="js/scripts.js"></script>
+	<h2>Basic JS - Tema 1</h2>
+	<script>
+		const PI= Math.PI;
+		var aria_cercului=undefined;
+		let raza_cercului=10;
+		
+		aria_cercului= PI * ( raza_cercului ** 2 );
+
+		let msg=`Aria cercului cu raza ${raza_cercului} cm este: ${aria_cercului} cm.`;
+		
+		console.log(msg);
+		document.write( "<div>" + msg + "</div>" );
+		document.write( "<br/>" );
+
+
+		let filme=[	"Dr. Strangelove",
+					"The Shining",
+					"2001 A Space Odyssey", 
+					"A Clockwork Orange",
+					"Eyes Wide Shut"
+				];
+				
+		console.log( "<div> Filme: " + filme + "</div>" );
+		document.write( "<div> Filme: " + filme + "</div>" );
+	
+
+		for(const k in filme ){
+			msg=`Film ${k}: ${filme[k]}`;
+			console.log(msg);
+			document.write( "<div>" + msg + "</div>" );
+		}
+
+
+
+		var valori=[5, 3, "1", 7, "9", 30, "45", 7];
+		let min=undefined,max=undefined;
+		
+		for(var k=0; k<valori.length; k++){
+			if( isNaN( valori[k] )  ){
+				continue;
+			}
+
+			
+
+			if( min === undefined ){
+				min=valori[k];
+			}
+			if( max === undefined ){
+				max=valori[k];
+			}
+
+			if( valori[k] >= max ){
+				max=valori[k];
+			}
+			if( valori[k] <= min ){
+				min=valori[k];
+			}
+			
+		}
+		
+		var isMin=Math.min(...valori) == min;
+		var isMax=Math.max(...valori) == max;
+
+
+		document.write( "<br/>" );
+		console.log( "Valori primite: " + valori );
+		document.write( "<div> Valori primite: " + valori +  "</div>" );
+
+		console.log( "Min: " + min );
+		document.write( "<div> Min: " + min +  "</div>" );
+
+		console.log( "Max: " + max  );
+		document.write( "<div> Max: " + max + "</div>" );
+
+		
+		
+		
+		
+	
+	</script>
+	
+
 </body>
 </html>
