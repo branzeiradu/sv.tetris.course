@@ -1,0 +1,74 @@
+<html>
+
+
+<body>
+    <script>
+
+
+        const canvas=document.createElement("canvas");
+        canvas.setAttribute("id","canvas");
+        canvas.style.border="1px solid red";
+        document.body.appendChild(canvas);
+        canvas.setAttribute("width", 300);
+        canvas.setAttribute("height", 300);
+           
+        //}
+        ////////////////////////////////////////curs webinar
+context = canvas.getContext('2d');
+class Circle {
+    constructor(x, y, radius, color) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.dx = 1;
+        this.dy = 1;
+    }
+
+    draw() {
+        context.beginPath();
+        context.arc(
+            this.x,
+            this.y,
+            this.radius,
+            0,
+            2 * Math.PI
+        );
+        context.stroke();
+        context.fillStyle = this.color;
+        context.fill();
+        context.closePath();
+    }
+
+    move(stepX, stepY, canvas) {
+        this.changeDirectionIfExceededBounds(canvas);
+        this.x += stepX * this.dx; // this.x = this.x + stepX;
+        this.y += stepY * this.dy;
+        this.draw();
+    }
+
+    changeDirectionIfExceededBounds(canvas) {
+        if (this.x >= canvas.width - this.radius) {
+            this.dx = -1;
+        }
+        if (this.y >= canvas.height - this.radius) {
+            this.dy = -1;
+        }
+        if (this.x <= this.radius) {
+            this.dx = 1;
+        }
+        if (this.y <= this.radius) {
+            this.dy = 1;
+        }
+    }
+}
+c=new Circle(1,1,10,'orange')
+
+    setInterval(()=>{
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        c.move(14,14, canvas );
+    }, 300);
+    
+    </script>
+</body>
+</html>
