@@ -1,0 +1,198 @@
+<html>
+<body>
+    <script>
+        const canvas=document.createElement("canvas");
+        canvas.setAttribute("id","canvas");
+        canvas.style.border="1px solid red";
+        document.body.appendChild(canvas);
+        
+        function canvasResize(e){
+            console.log(e);
+            canvas.setAttribute("width",1024);
+            canvas.setAttribute("height",640);
+        }
+        canvasResize();
+        
+        const _2d = canvas.getContext("2d");
+        const _3d = canvas.getContext("3d");
+        
+        const clockRadius=(Math.min(canvas.height,canvas.width) / 2);
+        
+
+        class Clock{
+            constructor(height){
+                this.height=height;
+                this.radius=height* 0.9;
+                //console.log(`new Clock(${this.radius}) `);
+            }
+
+            draw(){
+               
+                this.drawHourLines();
+                this.drawMinLines();
+                this.drawNumbers();
+                this.drawOuterRim();
+
+                let time=this.getTime();
+                this.drawHand(time.hr, this.radius * 0.5,this.radius * 0.05 );
+                this.drawHand(time.min, this.radius * 0.7,this.radius * 0.03 );
+                this.drawHand(time.sec, this.radius * 0.7,this.radius * 0.01 );
+                this.drawCenterRim();
+            }
+            start(){
+                
+                setInterval(() => {
+                    
+                    
+                    
+                    _2d.resetTransform();
+                    _2d.clearRect(0,0,canvas.width, canvas.height);
+                    _2d.translate( clockRadius, clockRadius);
+                    this.draw();
+                    
+                }, 500);
+
+            }
+            stop(){
+                clearInterval(this.clockThick);
+            }
+            getTime(){
+                const now = new Date();
+                let hour = now.getHours();
+                let minute = now.getMinutes();
+                let second = now.getSeconds();
+                
+                console.log(now);
+                hour = hour % 12;
+               
+                hour = (hour*Math.PI/6)
+                +(minute*Math.PI/(6*60))
+                +(second*Math.PI/(360*60));
+  
+                minute = (minute*Math.PI/30)+(second*Math.PI/(30*60));
+                second = (second*Math.PI/30);
+
+                const t={hr: hour, min: minute, sec: second};
+                console.log(t);
+
+                return t ;
+            }
+
+            drawHourLines(){
+               //drawing point is at the center of circle
+                for(let hr = 1; hr <=12; hr++ ){
+                    const ang = hr * Math.PI / 6;
+                    //move in an angle to the hr position
+                    _2d.rotate( ang );
+                    _2d.translate( 0, - this.radius  );
+                    //rotate drawing coordinate for hr vertical placements
+                    //_2d.rotate( - ang );
+                    _2d.beginPath();
+                    _2d.rect(0,0,1,20);
+                    _2d.fill();
+                    _2d.closePath();
+                    //rotate to original hr placements
+                    //_2d.rotate( ang );
+                   //back to center of clock;
+                    _2d.translate( 0, this.radius);
+                    //rotate back to original angle
+                    _2d.rotate( - ang );
+                    
+                }
+
+            }
+
+            drawMinLines(){
+                const mins=Math.PI / 60;
+                for(let min = 1; min <=360; min++ ){
+                    const ang = min * mins ;
+                    //move in an angle to the hr position
+                    _2d.rotate( ang );
+                    _2d.translate( 0, - this.radius  );
+                    //rotate drawing coordinate for hr vertical placements
+                    //_2d.rotate( - ang );
+                    _2d.beginPath();
+                    _2d.rect(0,0,1,20);
+                    _2d.fill();
+                    _2d.closePath();
+                    //rotate to original hr placements
+                    //_2d.rotate( ang );
+                   //back to center of clock;
+                    _2d.translate( 0, this.radius);
+                    //rotate back to original angle
+                    _2d.rotate( - ang );
+                    
+                }
+            }
+
+            drawOuterRim(){
+                _2d.beginPath();
+                _2d.arc( 0, 0, this.radius, 0, 2 * Math.PI);
+                _2d.lineWidth = this.radius * 0.05;
+                _2d.stroke();
+                _2d.closePath();
+
+            }
+            drawCenterRim(){
+                _2d.beginPath();
+                _2d.arc(0, 0, this.radius * 0.05, 0, 2 * Math.PI);
+                _2d.fillStyle = "#777";
+                _2d.fill();
+                _2d.closePath();
+            }
+
+            drawNumbers(){
+                _2d.font = `${this.radius * 0.2}px Arial`;
+                _2d.textBaseline = "middle";
+                _2d.textAlign = "center";
+                
+                //drawing point is at the center of circle
+                for(let hr = 1; hr <=12; hr++ ){
+                    const ang = hr * Math.PI / 6;
+                    //move in an angle to the hr position
+                    _2d.rotate( ang );
+                    _2d.translate( 0, - this.radius * 0.8 );
+                    
+                    //this.drawNumberDot();
+
+                    //rotate drawing coordinate for hr vertical placements
+                    _2d.rotate( - ang );
+                    _2d.fillText( hr.toString() , 0,0 );
+
+                    //rotate to original hr placements
+                    _2d.rotate( ang );
+                   
+                    //back to center of clock;
+                    _2d.translate( 0, this.radius * 0.8 );
+                    
+                    //rotate back to original angle
+                    _2d.rotate( - ang );
+                    
+                }
+            }
+
+
+            drawHand( pos, length, width) {
+                _2d.beginPath();
+                _2d.lineWidth = width;
+                _2d.lineCap = "round";
+                _2d.moveTo(0,0);
+                _2d.rotate(pos);
+                _2d.lineTo(0, -length);
+                _2d.stroke();
+                _2d.rotate(-pos);
+                _2d.closePath();
+            }
+
+        }
+        var c=new Clock( clockRadius );
+        c.start();
+        setTimeout(()=>{
+            c.stop();
+        },10000);
+       
+
+
+    </script>
+</body>
+</html>

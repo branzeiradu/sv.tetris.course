@@ -40,34 +40,78 @@ class Circle {
         context.closePath();
     }
 
-    move(stepX, stepY, canvas) {
-        this.changeDirectionIfExceededBounds(canvas);
-        this.x += stepX * this.dx; // this.x = this.x + stepX;
-        this.y += stepY * this.dy;
+    move(stepX, stepY) {
+        //this.changeDirectionIfExceededBounds(stepX, stepY);
+       
+
+
+        if(this.nextMovementX(stepX) + this.radius > canvas.width ){
+            this.x =  canvas.width - this.radius;
+            this.bounceX();
+           
+        }else
+        if(this.nextMovementX(stepX) - this.radius  < 0){
+            this.x =  this.radius;
+            this.bounceX();
+        }
+        else{
+            this.x= this.nextMovementX(stepX);
+        }
+
+        if(this.nextMovementY(stepY) + this.radius > canvas.height){
+            this.y =  canvas.height - this.radius ;
+            this.bounceY();
+        }else
+        if(this.nextMovementY(stepY) - this.radius  < 0){
+            this.y = this.radius;
+            this.bounceY();
+        }else{
+            this.y= this.nextMovementY(stepY);
+        }
+        
         this.draw();
     }
 
-    changeDirectionIfExceededBounds(canvas) {
-        if (this.x >= canvas.width - this.radius) {
-            this.dx = -1;
-        }
-        if (this.y >= canvas.height - this.radius) {
-            this.dy = -1;
-        }
-        if (this.x <= this.radius) {
-            this.dx = 1;
-        }
-        if (this.y <= this.radius) {
-            this.dy = 1;
-        }
+    nextMovementX(stepX){
+        const next=this.x + stepX * this.dx;
+
+        return  next; // + this.radius 
     }
+
+    nextMovementY(stepY){
+        const next=this.y  + stepY * this.dy;
+
+        return  next; // + this.radius
+    }
+
+    bounceX(){
+        this.dx *=-1;
+    }
+    bounceY(){
+        this.dy *=-1;
+    }
+    /*
+    
+    changeDirectionIfExceededBounds(stepX,stepY) {
+
+        if ( this.nextMovementX(stepX) >= canvas.width 
+        ||  this.nextMovementX(stepX) <= 0) {
+            bounceX();// this.dx *=-1;
+        }
+        if ( this.nextMovementY(stepY) >= canvas.height || this.nextMovementY(stepY) <= 0  ) {
+            bounceY()// this.dy *=-1;
+        }
+       
+    }
+    
+    */
 }
-c=new Circle(1,1,10,'orange')
+c=new Circle(10,10,10,'orange')
 
     setInterval(()=>{
         context.clearRect(0, 0, canvas.width, canvas.height);
-        c.move(14,14, canvas );
-    }, 300);
+        c.move(17,17, canvas );
+    }, 500);
     
     </script>
 </body>

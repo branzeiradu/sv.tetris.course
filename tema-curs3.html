@@ -109,6 +109,8 @@
             }
             
             draw(context){
+                
+
                 context.moveTo(this.pozX, this.pozY);
                 context.beginPath();
                 context.lineTo(this.pozX + this.face, this.pozY );
@@ -146,82 +148,141 @@
                 this.y=start.y;
                 this.r=radius;
                 
-                this.vectorX=1;
-                //this.vectorY=1;
-                this.vectorR=1;
-                this.step=0;
-                
+                this.dx=1;
+                this.dy=1;
+                this.dr=1;
                 this.bounceColor();
             }
 
+            draw(context){
+                if(this.r <= 0){
+                    this.bounceR();
+                    //this.nextR();
+                } 
 
-            setStep(step){
-                this.step=step;
-            }
-
-            draw(context, x, y, r){
                 context.beginPath();
                 context.fillStyle=this.color;
-                context.arc( x , y, r, 0, 2 * Math.PI);
-                context.closePath();
+                context.arc( this.x , this.y, this.r, 0, 2 * Math.PI);
                 context.fill();
-               
-                this.x = x;
-
-               
+                context.closePath();
+                
+              
             }
 
-            bounce(){
-                this.bounceX();
-                this.bounceR();
-                this.bounceColor();
-            }
+           
 
             bounceX(){
-                this.vectorX *= -1;
+                this.dx *= -1;
+            }
+            bounceY(){
+                this.dy *= -1;
             }
             bounceR(){
-                this.vectorR *= -1;
+                this.dr *= -1;
             }
 
             bounceColor(){
-                const r= getRandom(0,255)+ this.vectorR * this.r;
-                const g= getRandom(0,255)+ this.vectorR * this.r;
-                const b= getRandom(0,255)+ this.vectorR * this.r;
+                const r= getRandom(0,255);
+                const g= getRandom(0,255);
+                const b= getRandom(0,255);
                 this.color = `rgb(${r},${g},${b})`;
             }
 
 
-            changeDirection(bounds){
-               if( this.nextX() + this.r >= bounds.x || this.nextX() + this.r <= 0 ){
-                    this.bounce();
-                    
-                } 
-                
+           /*
+            changeDirection(bounds,step){
+                let changeR=false;
+                if ( this.nextMovementX(step.x) >= bounds.x 
+                    || this.nextMovementX(step.x) <= 0) {
+                    this.bounceX();// this.dx *=-1;
+                  changeR=true;
+                }
+                if ( this.nextMovementY(step.y) >= bounds.y
+                || this.nextMovementY(step.y) <= 0  ) {
+                    this.bounceY()// this.dy *=-1;
+                    changeR=true;
+                }
+
+
+                if(changeR){
+                    this.bounceR();
+                    this.bounceColor();
+                }
+            }*/
+
+            nextMovementX(stepX){
+                const next=this.x + stepX * this.dx;
+                return  next; // + this.radius 
             }
 
-            nextX(){
-                const next = this.x + this.step * this.vectorX ;
-                return next;
+            nextMovementY(stepY){
+                const next=this.y  + stepY * this.dy;
+                return  next; // + this.radius
             }
-                       
-            move(context, bounds){
-                this.changeDirection(bounds);
-                this.draw(context, this.nextX(), this.y, this.r);  
-                this.r += this.vectorR ;
+            nextR(){
+                this.r += this.dr;
+            }
+
+            move(context, bounds, step){
+               // this.r += this.dr * 1.2 ;
+                
+                //this.changeDirection(bounds, step);
+                
+
+                if(this.nextMovementX(step.x) + this.r > bounds.x ){
+                    this.x =  bounds.x - this.r;
+                    this.bounceX();
+                    this.bounceColor();
+                    this.bounceR();
+                
+                }else
+                if(this.nextMovementX(step.x) - this.r  < 0){
+                    this.x =  this.r;
+                    this.bounceX();
+                    this.bounceColor();
+                    this.bounceR();
+                
+                }else{
+                    this.x= this.nextMovementX(step.x);
+                }
+
+                
+                if(this.nextMovementY(step.y) + this.r > bounds.y){
+                    this.y =  bounds.y - this.r ;
+                    this.bounceY();
+                    this.bounceColor();
+                    this.bounceR();
+                
+                }else
+                if(this.nextMovementY(step.y) - this.r  < 0){
+                    this.y = this.r;
+                    this.bounceY();
+                    this.bounceColor();
+                    this.bounceR();
+                
+                }else{
+                    this.y= this.nextMovementY(step.y);
+                }
+                
+
+                
+                this.draw(context);  
+                this.nextR();
+               
+                
             }   
 
            
         }
 
         _2d = canvas[2].getContext("2d");
-        const c=new MovingCircle( {x:150, y:150}, 15);
-            
+        const c=new MovingCircle( {x:173, y:143}, 20);
         
-
-        c.setStep(15);
         setInterval(()=>{
-            let _2d = canvas[2].getContext("2d");
+            const _2d = canvas[2].getContext("2d");
+            const movingBounds={ x : canvas[2].width, y : canvas[2].height};
+            const step={ x : 13, y : 7 };
+
             _2d.clearRect(0, 0, canvas[2].width, canvas[2].height);
             
             _2d.beginPath();
@@ -231,7 +292,7 @@
             _2d.closePath();
             _2d.fill();
             
-            c.move(_2d, { x : canvas[2].width, y : canvas[2].height} );
+            c.move(_2d,  movingBounds, step );
             
             
         }, 500);
@@ -250,8 +311,8 @@
     const gridSize={rows: 20, cols: 30};
     const cellSize={w:30, h:30};
     const canvasSize={w: gridSize.rows * cellSize.w, h: gridSize.cols * cellSize.h };
-    canvas[3].width=canvasSize.h;//bogdan   
-    canvas[3].height=canvasSize.w;//bogdan
+    canvas[3].width=canvasSize.h;
+    canvas[3].height=canvasSize.w;
    
     _2d = canvas[3].getContext("2d");
   
@@ -289,7 +350,7 @@
                     color = "black"
                 }
                 */
-               grid[r][c] = new Cell(r, c, (r %2 ^ c % 2) ? "black" : "white" );//aply xor
+               grid[r][c] = new Cell(r, c, (r %2 ^ c % 2) ? "black" : "white" );//apply xor
             }
         }  
     }
