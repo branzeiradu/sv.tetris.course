@@ -155,7 +155,7 @@
             }
 
             draw(context){
-                if(this.r <= 0){
+                if(this.r == 0 ){
                     this.bounceR();
                     //this.nextR();
                 } 
@@ -281,7 +281,7 @@
         setInterval(()=>{
             const _2d = canvas[2].getContext("2d");
             const movingBounds={ x : canvas[2].width, y : canvas[2].height};
-            const step={ x : 13, y : 7 };
+            const step={ x : 7, y : 5 };
 
             _2d.clearRect(0, 0, canvas[2].width, canvas[2].height);
             
@@ -295,7 +295,7 @@
             c.move(_2d,  movingBounds, step );
             
             
-        }, 500);
+        }, 500 /*100*/);
 
 
 
