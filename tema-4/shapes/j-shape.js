@@ -12,7 +12,7 @@ export class J extends Shape {
     }
 
     changeColor() {
-        this.color = Random.randomColor();
+        this.color = Random.color();
     }
 }
 
