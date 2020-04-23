@@ -3,149 +3,163 @@
 <body>
 
     <script>
-        const canvas = [];
-        for (let i = 0; i < 4; i++) {
-            const c = document.createElement("canvas");
-            c.setAttribute("id", "canvas");
-            c.style.border = "1px solid red";
-            document.body.appendChild(c);
-            c.setAttribute("width", 300);
-            c.setAttribute("height", 300);
-            canvas[i] = c;
+
+        getRandom = (min, max) => {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
+        //////////////////////////////////////////////////////ex1;
+        const ex1 = () => {
+
+            const canvas = document.createElement("canvas");
+            canvas.setAttribute("id", "canvas");
+            canvas.style.border = "1px solid red";
+            document.body.appendChild(canvas);
+            canvas.setAttribute("width", 300);
+            canvas.setAttribute("height", 300);
+
+            let _2d = canvas.getContext("2d");
+            //exe1
+            _2d.beginPath();
+            _2d.arc(50, 50, 30, 0, 2 * Math.PI);
+            _2d.fillStyle = "blue";
+            _2d.fill();
+            _2d.fillStyle = "white";
+            _2d.font = "10px Arial";
+            _2d.closePath();
+            _2d.fillText("Ex1", 40, 50);
 
 
 
 
 
-
-        let _2d = canvas[0].getContext("2d");
-        //exe1
-        _2d.beginPath();
-        _2d.arc(50, 50, 30, 0, 2 * Math.PI);
-        _2d.fillStyle = "blue";
-        _2d.fill();
-        _2d.fillStyle = "white";
-        _2d.font = "10px Arial";
-        _2d.closePath();
-        _2d.fillText("Ex1", 40, 50);
-
-
-
-
-
-        class Rectangle {
-            constructor(context, size) {
-                this.context = context;
-                this.l1 = size.l1;
-                this.l2 = size.l2;
-            }
-
-            draw(config) {
-
-                if (config.translate) {
-                    this.context.translate(config.translate.x, config.translate.y);
-                }
-                if (config.rotate) {
-                    this.context.rotate(config.rotate);
+            class Rectangle {
+                constructor(context, size) {
+                    this.context = context;
+                    this.l1 = size.l1;
+                    this.l2 = size.l2;
                 }
 
-                if (config.fill) {
-                    this.context.beginPath();
-                    this.context.fillStyle = config.fill;
-                    this.context.fillRect(0, 0, this.l1, this.l2);
-                    this.context.closePath();
+                draw(config) {
+                    const rotate = config.rotate;
+                    const fill = config.fill;
+                    const translate = config.translate;
+                    const stroke = config.stroke;
 
-
-                } else
-                    if (config.stroke) {
-                        this.context.rect(0, 0, this.l1, this.l2);
-                        this.context.strokeStyle = config.stroke;
-                        this.context.stroke();
+                    if (translate) {
+                        const tX = config.translate.x;
+                        const tY = config.translate.y;
+                        this.context.translate(tX, tY);
+                    }
+                    if (rotate) {
+                        this.context.rotate(rotate);
                     }
 
+                    if (fill) {
+                        this.context.beginPath();
+                        this.context.fillStyle = f;
+                        this.context.fillRect(0, 0, this.l1, this.l2);
+                        this.context.closePath();
 
+
+                    } else
+                        if (stroke) {
+                            this.context.rect(0, 0, this.l1, this.l2);
+                            this.context.strokeStyle = config.stroke;
+                            this.context.stroke();
+                        }
+
+
+
+                }
 
             }
 
+
+            const rectSize = { l1: 200, l2: 400 };
+            const rectConfig = {
+                fill: "#235554",
+                translate: { y: canvas.height * 0.01, x: canvas.width * 0.01 },
+                rotate: - 15 * Math.PI / 180
+            };
+
+
         }
-
-
-        const rectSize = { l1: 200, l2: 400 };
-        const rectConfig = {
-            fill: "#235554",
-            translate: { y: canvas[0].height * 0.01, x: canvas[0].width * 0.01 },
-            rotate: - 15 * Math.PI / 180
-        };
-
+        ex1();
 
 
 
 
 
         //////////////////////////////////////////////////////ex2;
-        _2d = canvas[1].getContext("2d");
-        class CanvasSquare {
-            constructor(face) {
-                this.pozX = 0;
-                this.pozY = 0;
-                this.rotation = 0;
-                this.face = face;
+        const ex2 = () => {
+            const canvas = document.createElement("canvas");
+            canvas.setAttribute("id", "canvas");
+            canvas.style.border = "1px solid red";
+            document.body.appendChild(canvas);
+            canvas.setAttribute("width", 300);
+            canvas.setAttribute("height", 300);
 
-            }
+            let _2d = canvas.getContext("2d");
 
+            class CanvasSquare {
+                constructor(face) {
+                    this.pozX = 0;
+                    this.pozY = 0;
+                    this.rotation = 0;
+                    this.face = face;
 
-            position(poz) {
-                if (typeof poz.y == "number") {
-                    this.pozY = (poz.y > 0) ? (poz.y) : 0;
                 }
 
-                if (typeof poz.x == "number") {
-                    this.pozX = (poz.x > 0) ? (poz.x) : 0;
+
+                position(poz) {
+                    if (typeof poz.y == "number") {
+                        this.pozY = (poz.y > 0) ? (poz.y) : 0;
+                    }
+
+                    if (typeof poz.x == "number") {
+                        this.pozX = (poz.x > 0) ? (poz.x) : 0;
+                    }
+
                 }
 
+                draw(context) {
+
+
+                    context.moveTo(this.pozX, this.pozY);
+                    context.beginPath();
+                    context.lineTo(this.pozX + this.face, this.pozY);
+                    context.lineTo(this.pozX + this.face, this.pozY + this.face);
+                    context.lineTo(this.pozX, this.pozY + this.face);
+                    context.lineTo(this.pozX, this.pozY);
+
+                    context.font = "12px Arial";
+                    const txtX = this.pozX + this.face / 2 - 10;
+                    const txtY = this.pozY + this.face / 3 + 12;
+                    context.fillText("Ex2", txtX, txtY)
+                    context.closePath();
+                    context.stroke();
+
+                }
             }
 
-            draw(context) {
 
 
-                context.moveTo(this.pozX, this.pozY);
-                context.beginPath();
-                context.lineTo(this.pozX + this.face, this.pozY);
-                context.lineTo(this.pozX + this.face, this.pozY + this.face);
-                context.lineTo(this.pozX, this.pozY + this.face);
-                context.lineTo(this.pozX, this.pozY);
-
-                context.font = "12px Arial";
-                const txtX = this.pozX + this.face / 2 - 10;
-                const txtY = this.pozY + this.face / 3 + 12;
-                context.fillText("Ex2", txtX, txtY)
-                context.closePath();
-                context.stroke();
-
+            const drawSquare = () => {
+                const s = new CanvasSquare(40);
+                s.position({ x: canvas.width / 10, y: canvas.height / 10 });
+                s.draw(_2d);
             }
+
+            drawSquare();
+
         }
-        function draw() {
-            const s = new CanvasSquare(40);
-            s.position({ x: canvas[1].width / 10, y: canvas[1].height / 10 });
-            s.draw(_2d);
-        }
-        draw();
+        ex2();
 
 
 
 
-
-        getRandom = (min, max) => {
-            return
-            Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-
-
-
-        //////////////////////////////////////ex3
+        //////////////////////////////////////////////////////ex3;
         class MovingCircle {
             constructor(start, radius) {
                 this.x = start.x;
@@ -172,9 +186,6 @@
 
 
             }
-
-
-
             bounceX() {
                 this.dx *= -1;
             }
@@ -191,48 +202,20 @@
                 const b = getRandom(0, 255);
                 this.color = `rgb(${r},${g},${b})`;
             }
-
-
-            /*
-             changeDirection(bounds,step){
-                 let changeR=false;
-                 if ( this.nextMovementX(step.x) >= bounds.x 
-                     || this.nextMovementX(step.x) <= 0) {
-                     this.bounceX();// this.dx *=-1;
-                   changeR=true;
-                 }
-                 if ( this.nextMovementY(step.y) >= bounds.y
-                 || this.nextMovementY(step.y) <= 0  ) {
-                     this.bounceY()// this.dy *=-1;
-                     changeR=true;
-                 }
- 
- 
-                 if(changeR){
-                     this.bounceR();
-                     this.bounceColor();
-                 }
-             }*/
-
             nextMovementX(stepX) {
                 const next = this.x + stepX * this.dx;
-                return next; // + this.radius 
+                return next;
             }
 
             nextMovementY(stepY) {
                 const next = this.y + stepY * this.dy;
-                return next; // + this.radius
+                return next;
             }
             nextR() {
                 this.r += this.dr;
             }
 
             move(context, bounds, step) {
-                // this.r += this.dr * 1.2 ;
-
-                //this.changeDirection(bounds, step);
-
-
                 if (this.nextMovementX(step.x) + this.r > bounds.x) {
                     this.x = bounds.x - this.r;
                     this.bounceX();
@@ -279,15 +262,55 @@
 
         }
 
-        _2d = canvas[2].getContext("2d");
-        const c = new MovingCircle({ x: 173, y: 143 }, 20);
+        const ex3 = () => {
+            const canvas = document.createElement("canvas");
+            canvas.setAttribute("id", "canvas");
+            canvas.style.border = "1px solid red";
+            document.body.appendChild(canvas);
+            canvas.setAttribute("width", 300);
+            canvas.setAttribute("height", 300);
 
-        setInterval(() => {
-            const _2d = canvas[2].getContext("2d");
-            const movingBounds = { x: canvas[2].width, y: canvas[2].height };
-            const step = { x: 7, y: 5 };
+            let _2d = canvas.getContext("2d");
+            const circle = new MovingCircle({ x: 173, y: 143 }, 20);
 
-            _2d.clearRect(0, 0, canvas[2].width, canvas[2].height);
+            setInterval(() => {
+                const _2d = canvas.getContext("2d");
+                const movingBounds = { x: canvas.width, y: canvas.height };
+                const step = { x: 7, y: 5 };
+
+                _2d.clearRect(0, 0, canvas.width, canvas.height);
+
+                _2d.beginPath();
+                _2d.font = `${15}px Arial`;
+                _2d.fillStyle = "black";
+                _2d.fillText("Ex3", 15, 15);
+                _2d.closePath();
+                _2d.fill();
+
+                circle.move(_2d, movingBounds, step);
+
+
+            }, 500 /*100*/);
+        }
+        ex3();
+
+
+
+
+
+
+
+        //////////////////////////////////////////////////////ex4;
+        const ex4 = () => {
+
+            const canvas = document.createElement("canvas");
+            canvas.setAttribute("id", "canvas");
+            canvas.style.border = "1px solid red";
+            document.body.appendChild(canvas);
+            canvas.setAttribute("width", 300);
+            canvas.setAttribute("height", 300);
+
+            let _2d = canvas.getContext("2d");
 
             _2d.beginPath();
             _2d.font = `${15}px Arial`;
@@ -296,110 +319,96 @@
             _2d.closePath();
             _2d.fill();
 
-            c.move(_2d, movingBounds, step);
+
+            const gridSize = { rows: 20, cols: 30 };
+            const cellSize = { w: 30, h: 30 };
+            const canvasSize = {
+                w: gridSize.rows * cellSize.w,
+                h: gridSize.cols * cellSize.h
+            };
+            canvas.width = canvasSize.h;
+            canvas.height = canvasSize.w;
+
+            _2d = canvas.getContext("2d");
+
+            class Cell {
+                constructor(x, y, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.color = color;
+                }
 
 
-        }, 500 /*100*/);
+                draw(context) {
 
+                    const   beginX=this.y * cellSize.h,
+                            beginY=this.x * cellSize.w,
+                            lengthX= cellSize.w,
+                            lengthY=cellSize.h;
 
-
-        ////////////////////////////ex4
-        _2d.beginPath();
-        _2d.font = `${15}px Arial`;
-        _2d.fillStyle = "black";
-        _2d.fillText("Ex3", 15, 15);
-        _2d.closePath();
-        _2d.fill();
-
-
-        const gridSize = { rows: 20, cols: 30 };
-        const cellSize = { w: 30, h: 30 };
-        const canvasSize = {
-            w: gridSize.rows * cellSize.w,
-            h: gridSize.cols * cellSize.h
-        };
-        canvas[3].width = canvasSize.h;
-        canvas[3].height = canvasSize.w;
-
-        _2d = canvas[3].getContext("2d");
-
-        class Cell {
-            constructor(x, y, color) {
-                this.x = x;
-                this.y = y;
-                this.color = color;
-            }
-
-
-            draw(context) {
-                context.beginPath();
-                context.fillStyle = this.color;
-                context.rect(this.y * cellSize.h, this.x * cellSize.w, cellSize.w, cellSize.h);
-                context.fill();
-                context.stroke();
-                context.closePath();
+                    context.beginPath();
+                    context.fillStyle = this.color;
+                    context.rect(beginX, beginY, lengthX, lengthY);
+                    context.fill();
+                    context.stroke();
+                    context.closePath();
 
 
 
-            }
-        }
-        const grid = [];
-        const createGrid = () => {
-            for (let r = 0; r < gridSize.rows; r++) {
-                grid[r] = [];
-                for (let c = 0; c < gridSize.cols; c++) {
-                    /*
-                     let color = "white";
-                     if(r %2 == 1 && c % 2 == 0){
-                         color = "black"
-                     }else
-                     if(r %2 == 0 && c % 2 == 1){
-                         color = "black"
-                     }
-                     */
-                    const color = (r % 2 ^ c % 2) ? "black" : "white";
-                    grid[r][c] = new Cell(r, c, color);//apply xor
                 }
             }
-        }
-        createGrid();
-        const drawGrid = () => {
-            for (let r = 0; r < gridSize.rows; r++) {
-                for (let c = 0; c < gridSize.cols; c++) {
-                    grid[r][c].draw(_2d);
+            const grid = [];
+            const createGrid = () => {
+                for (let r = 0; r < gridSize.rows; r++) {
+                    grid[r] = [];
+                    for (let c = 0; c < gridSize.cols; c++) {
+                        const color = (r % 2 ^ c % 2) ? "black" : "white";
+                        grid[r][c] = new Cell(r, c, color);//apply xor
+                    }
                 }
             }
-        }
-        drawGrid();
-
-        class Square {
-            constructor(row, column, length) {
-                this.row = row;
-                this.column = column;
-                this.length = length;
-
+            createGrid();
+            const drawGrid = () => {
+                for (let r = 0; r < gridSize.rows; r++) {
+                    for (let c = 0; c < gridSize.cols; c++) {
+                        grid[r][c].draw(_2d);
+                    }
+                }
             }
-            draw(grid, context) {
-                let c = this.column;
-                let r = this.row;
-                context.beginPath();
-                context.fillStyle = "blue";
-                const cell = grid[c][r];
-                context.rect(cell.x * cellSize.w,
-                    cell.y * cellSize.h,
-                    cellSize.w * this.length,
-                    cellSize.h * this.length);
-                console.log(grid[c][r]);
-                context.fill();
-                context.closePath();
+            drawGrid();
 
+            class Square {
+                constructor(row, column, length) {
+                    this.row = row;
+                    this.column = column;
+                    this.length = length;
+
+                }
+                draw(grid, context) {
+                    let c = this.column;
+                    let r = this.row;
+                    context.beginPath();
+                    context.fillStyle = "blue";
+                    const cell = grid[c][r];
+
+                    const   beginX=cell.x * cellSize.w,
+                            beginY=cell.y * cellSize.h,
+                            lengthX= cellSize.w * this.length,
+                            lengthY= cellSize.h * this.length;
+
+                    context.rect(beginX, beginY,lengthX,lengthY);
+                    context.fill();
+                    context.closePath();
+
+                }
             }
+
+            new Square(2, 3, 2).draw(grid, _2d);
+
+
+
         }
-
-        new Square(2, 3, 2).draw(grid, _2d);
-
-
-
+        ex4();
 
 
 
