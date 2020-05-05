@@ -1,0 +1,257 @@
+@font-face {
+    font-family: 'arcade';
+    src: url('./font/arcadeclassic/ARCADECLASSIC.TTF') format('truetype');/*arcade classic*/
+  }
+
+
+  @font-face {
+    font-family: 'PressStart';
+    src: url('./font/press-start/prstart.ttf') format('truetype');/*arcade classic*/
+  }
+
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    outline: 0;
+    box-sizing: border-box;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    --label-family: "arcade",monospace;
+    --title-family: "PressStart", monospace;
+    --font-size: 1em;
+    --cellSize: 30px;
+    --label-color: white;
+    --label-size: var(--font-size);
+    background-color: black;
+    background-image: url("https://45.media.tumblr.com/8a6222b741897e71545a3a526ee839da/tumblr_nf8e5nm2Z91u3wnxjo1_1280.gif");
+    background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/12cbe8a4-f55c-4b40-85bb-d8e1405e7b84/d98qb8z-56df9d2f-1a24-41d4-ad7d-e4244cc189be.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvMTJjYmU4YTQtZjU1Yy00YjQwLTg1YmItZDhlMTQwNWU3Yjg0XC9kOThxYjh6LTU2ZGY5ZDJmLTFhMjQtNDFkNC1hZDdkLWU0MjQ0Y2MxODliZS5naWYifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.l602G-jWcVBhbF2T-zPIjNc_PobS5hnoZnd-rncEeJM");
+    
+    background-image: url("https://gifimage.net/wp-content/uploads/2018/11/cyberpunk-pixel-art-gif-5.gif");
+    
+    background-image: url("https://i0.wp.com/windowscustomization.com/wp-content/uploads/2018/10/cyberpunk-night-city.gif?resize=750%2C364&quality=80&strip=all&ssl=1");
+    /*    background-blend-mode: hard-light;*/
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/*- padding -*/
+
+.p-1 {
+    padding: calc( var(--font-size) * 0.25);
+}
+
+.p-2 {
+    padding: calc( var(--font-size) * 0.5);
+}
+
+.p-3 {
+    padding: calc( var(--font-size) * 0.75);
+}
+
+.p-4 {
+    padding: var(--font-size);
+}
+
+.p-5 {
+    padding: calc(  var(--font-size) * 1.25 ) ;
+}
+
+.p-6 {
+    padding: calc(  var(--font-size) * 1.5 ) ;
+}
+
+.p-7 {
+    padding: calc(  var(--font-size) * 1.75 ) ;
+}
+
+.p-8 {
+    padding: calc(  var(--font-size) * 2 ) ;
+}
+
+/*- marging -*/
+
+.m-1 {
+    margin: calc( var(--font-size) * 0.25);
+}
+
+.m-2 {
+    margin: calc( var(--font-size) * 0.5);
+}
+
+.m-3 {
+    margin: calc( var(--font-size) * 0.75);
+}
+
+.m-4 {
+    margin: var(--font-size);
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+.flex-container > * {
+    /* outline: 1px solid blueviolet; */
+}
+
+.flex-container--column {
+    flex-direction: column;
+}
+
+/*- flex container modifier justify content -*/
+
+.flex-container--justify-start {
+    justify-content: flex-start;
+}
+
+.flex-container--justify-end {
+    justify-content: flex-end;
+}
+
+.flex-container--justify-center {
+    justify-content: center;
+}
+
+.flex-container--justify-space {
+    justify-content: space-around;
+}
+
+/*- flex item modifier align content -*/
+
+.flex-item--align-start {
+    align-self: flex-start;
+}
+
+.flex-item--align-end {
+    align-self: flex-end;
+}
+
+.flex-item--align-stretch {
+    align-self: stretch;
+}
+
+.flex-item--align-center {
+    align-self: center;
+}
+
+.no-select {
+    user-select: none;
+    outline: 0;
+}
+
+.write-vertical {
+    text-orientation: upright;
+    writing-mode: tb;
+}
+
+.text-center {
+    text-align: center;
+}
+
+#game {
+
+    margin: auto;
+    background-color: rgba(0,0,0, 0.8);
+
+}
+
+#startGame {
+    background-color: black;
+    border: 2px solid var(--label-color);
+    color: var(--label-color);
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 5px 5px 0 gray;
+    font-family: var(--label-family);
+    font-size: calc( var(--label-size) * 1.5);
+}
+
+#startGame:disabled {
+    background-color: gray;
+    border: 2px solid gray;
+    color: black;
+    outline : 2px solid gray;
+    outline-offset: 2px;
+    box-shadow: none;
+}
+#startGame:active {
+    box-shadow: 2px 2px 0 gray;
+}
+
+#startGame:not(:disabled):hover {
+    background-color: var(--label-color);
+    border: 2px solid var(--label-color);
+    color: var(--label-color);
+    color: black;
+    transition: color 0.5 linear, background-color 0.3 ease, outline 0.5 linear;
+   
+}
+
+#title {
+    margin: 0;
+    /*reset user agent margin style*/
+    font-size: calc( var(--label-size) * 2.5);
+    border: 2px solid var(--label-color);
+    color: var(--label-color);
+    font-family: var(--title-family);
+    text-transform: uppercase;
+    letter-spacing: calc( var(--label-size) * 0.5 );
+    margin-right: calc( 1 * var(--font-size) )
+  
+}
+
+#nextShapeLabel {
+    height: calc( var(--cellSize) * 6);
+    width: calc( var(--cellSize) * 6);
+}
+
+#nextShapeLabel:before {
+    content: "Next Shape";
+    display: block;
+}
+
+#linesLabel, #scoreLabel, #nextShapeLabel {
+    font-family: var(--label-family);
+    line-height: calc( var(--font-size) * 2);
+    font-size: calc( var(--label-size) * 1.5);
+    color: var(--label-color);
+    letter-spacing: calc( var(--label-size) * 0.1 );
+}
+
+#content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#canvasId{
+    border: 3px solid white;
+}
+
+
+.empty, .filled {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    box-sizing: border-box;
+    /*border: 1px solid black;*/
+}
+
+.empty {
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
